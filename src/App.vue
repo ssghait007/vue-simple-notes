@@ -70,6 +70,15 @@ export default {
       editNote(key, e) {
          this.notes[this.selected][key] = e.target.value;
       },
+
+      deleteNote(index) {
+         const confirmed = window.confirm('Delete note?');
+         if (confirmed) {
+            const newNotes = [...this.notes];
+            newNotes.splice(index, 1);
+            this.notes = newNotes;
+         }
+      },
    },
 };
 </script>
@@ -96,6 +105,7 @@ export default {
                   :note="note"
                   :selected="selected === i"
                   @click="selectNote(i)"
+                  @delete="deleteNote(i)"
                />
             </div>
          </section>
