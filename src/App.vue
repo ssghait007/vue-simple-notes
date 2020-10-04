@@ -20,7 +20,6 @@ export default {
       notes: [],
       search: '',
       selected: 0,
-      lastSaved: '',
       saved: true,
       navOpen: false,
       interval: '',
@@ -58,7 +57,6 @@ export default {
          this.interval = setInterval(() => {
             if (!this.saved) {
                localStorage.setItem('simple-notes', JSON.stringify(this.notes));
-               this.lastSaved = moment(new Date()).format('MMMM Do YYYY, h:mm:ss a');
                this.saved = true;
             }
          }, 1000 * 5); // save every 5 seconds
@@ -96,7 +94,6 @@ export default {
       <header class="header">
          <div :class="['menu', { navOpen }]" @click="navOpen = !navOpen">&#10095;</div>
          <div class="title">Simple Notes</div>
-         <div v-show="lastSaved" class="last-saved time">Last Save: {{ lastSaved }}</div>
          <div class="last-saved val">{{ saved ? 'Saved' : 'Unsaved' }}</div>
       </header>
 
@@ -171,11 +168,10 @@ $white: #f5f5f5;
    }
 
    .last-saved {
+      display: flex;
       justify-content: flex-end;
       color: #888;
       font-size: 12px;
-      &.time { display: flex; }
-      &.val { display: none; }
    }
 
    @media (max-width: 750px) {
@@ -190,11 +186,6 @@ $white: #f5f5f5;
       }
 
       .title { justify-content: center; }
-
-      .last-saved {
-         &.time { display: none; }
-         &.val { display: flex; }
-      }
    }
 }
 
@@ -224,7 +215,7 @@ $white: #f5f5f5;
 
          input {
             height: 100%;
-            width: calc(100% - 20px);
+            width: calc(100% - 32px);
             background: $dark;
             color: $white;
             border: 1px solid $dark;
@@ -235,7 +226,7 @@ $white: #f5f5f5;
 
          .new-note {
             height: 26px;
-            width: 26px;
+            width: 32px;
             display: flex;
             justify-content: center;
             align-items: center;
