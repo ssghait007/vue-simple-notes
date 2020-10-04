@@ -21,6 +21,8 @@ export default {
       search: '',
       selected: 0,
       lastSaved: '',
+      saved: true,
+      navOpen: false,
       interval: '',
    }),
 
@@ -54,8 +56,11 @@ export default {
    methods: {
       autoSave() {
          this.interval = setInterval(() => {
-            localStorage.setItem('simple-notes', JSON.stringify(this.notes));
-            this.lastSaved = moment(new Date()).format('MMMM Do YYYY, h:mm:ss a');
+            if (!this.saved) {
+               localStorage.setItem('simple-notes', JSON.stringify(this.notes));
+               this.lastSaved = moment(new Date()).format('MMMM Do YYYY, h:mm:ss a');
+               this.saved = true;
+            }
          }, 1000 * 5); // save every 5 seconds
       },
 
@@ -65,13 +70,16 @@ export default {
 
       selectNote(index) {
          this.selected = index;
+         this.navOpen = false;
       },
 
       editNote(key, e) {
          this.notes[this.selected][key] = e.target.value;
+         this.saved = false;
       },
 
-      deleteNote(index) {
+      deleteNote(e, index) {
+         e.stopPropagation();
          const confirmed = window.confirm('Delete note?');
          if (confirmed) {
             const newNotes = [...this.notes];
@@ -86,17 +94,18 @@ export default {
 <template>
    <div id="app">
       <header class="header">
-         <div>Simple Notes</div>
-         <div v-show="lastSaved" class="last-saved">Last Save: {{ lastSaved }}</div>
+         <div :class="['menu', { navOpen }]" @click="navOpen = !navOpen">&#10095;</div>
+         <div class="title">Simple Notes</div>
+         <div v-show="lastSaved" class="last-saved time">Last Save: {{ lastSaved }}</div>
+         <div class="last-saved val">{{ saved ? 'Saved' : 'Unsaved' }}</div>
       </header>
 
       <div class="body">
-         <section class="nav">
+         <section :class="['nav', { navOpen }]">
             <div class="search">
                <input placeholder="Search" v-model="search" />
+               <div class="new-note" @click="newNote">+</div>
             </div>
-
-            <button class="new-note" @click="newNote">New Note</button>
 
             <div class="notes">
                <Note
@@ -105,7 +114,7 @@ export default {
                   :note="note"
                   :selected="selected === i"
                   @click="selectNote(i)"
-                  @delete="deleteNote(i)"
+                  @delete="e => deleteNote(e, i)"
                />
             </div>
          </section>
@@ -150,9 +159,42 @@ $white: #f5f5f5;
    z-index: 10;
    box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.5);
 
+   div { flex: 1; }
+
+   .menu {
+      display: none;
+   }
+
+   .title {
+      display: flex;
+      justify-content: flex-start;
+   }
+
    .last-saved {
+      justify-content: flex-end;
       color: #888;
       font-size: 12px;
+      &.time { display: flex; }
+      &.val { display: none; }
+   }
+
+   @media (max-width: 750px) {
+      .menu {
+         display: flex;
+         justify-content: flex-start;
+         align-items: center;
+         &.navOpen {
+            justify-content: flex-end;
+            transform: rotate(180deg);
+         }
+      }
+
+      .title { justify-content: center; }
+
+      .last-saved {
+         &.time { display: none; }
+         &.val { display: flex; }
+      }
    }
 }
 
@@ -160,11 +202,14 @@ $white: #f5f5f5;
    height: calc(100% - 40px);
    width: 100%;
    display: flex;
+   position: relative;
 
    .nav {
       height: 100%;
       width: 240px;
+      background: $darker;
       padding-top: 10px;
+      padding-bottom: 40px;
       position: relative;
       z-index: 9;
       box-shadow: 3px 0px 5px rgba(0, 0, 0, 0.25);
@@ -174,51 +219,59 @@ $white: #f5f5f5;
          width: 100%;
          display: flex;
          justify-content: space-between;
+         margin-bottom: 10px;
          align-items: center;
 
          input {
             height: 100%;
-            width: 100%;
+            width: calc(100% - 20px);
             background: $dark;
             color: $white;
             border: 1px solid $dark;
-            border-right: 1px solid $darker;
             padding: 0px 6px;
             outline: none;
             &:focus { border: 1px solid #888888 }
          }
-      }
 
-      .new-note {
-         height: 20px;
-         width: 100%;
-         background: transparent;
-         display: flex;
-         justify-content: center;
-         align-items: center;
-         margin: 10px 0px;
-         border: 1px solid aqua;
-         color: $white;
-         cursor: pointer;
-         transition: .15s background ease-in-out;
-         &:hover {
-            background: rgba(255, 255, 255, 0.12);
+         .new-note {
+            height: 26px;
+            width: 26px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: .10s background ease-in-out;
+            &:hover { background: rgba(255, 255, 255, 0.25); }
+            &:active { background: rgba(255, 255, 255, 0.12); }
          }
       }
 
       .notes {
          height: 100%;
          width: 100%;
+         border-top: 1px solid $dark;
          overflow-y: scroll;
-         &::-webkit-scrollbar { width: 6px; }
+         &::-webkit-scrollbar { width: 3px; }
          &::-webkit-scrollbar-track { background: transparent; }
-         &::-webkit-scrollbar-thumb { background: #faa500; }
+         &::-webkit-scrollbar-thumb { background: #888; }
+      }
+
+      @media (max-width: 750px) {
+         width: 100%;
+         position: absolute;
+         left: -100%;
+         transition: .15s left ease-in-out;
+         &.navOpen { left: 0; }
       }
    }
 
    .window {
       height: 100%;
       width: calc(100% - 240px);
+
+      @media (max-width: 750px) {
+         width: 100%;
+      }
    }
 }
 

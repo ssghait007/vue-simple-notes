@@ -45,6 +45,10 @@ export default {
          margin-bottom: 6px;
          font-size: 26px;
          color: #f5f5f5;
+
+         @media (max-width: 750px) {
+            width: 100%;
+         }
       }
 
       .date {
