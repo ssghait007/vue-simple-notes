@@ -16,7 +16,7 @@ export default {
          <div class="content">{{ note.content }}</div>
       </section>
 
-      <div class="delete" title="Delete" @click="$emit('delete')">&times;</div>
+      <div class="delete" title="Delete" @click="e => $emit('delete', e)">&times;</div>
    </div>
 </template>
 
@@ -31,7 +31,7 @@ export default {
    border-bottom: 1px solid #323231;
    padding: 4px 6px;
    transition: .15s background ease-in-out;
-   &:first-child { border-top: 1px solid #323231; }
+   &:last-child { border-bottom: none; }
    &:hover { background: rgba(255, 255, 255, 0.08); }
    &.selected {
       border-left-color: #faa500;
