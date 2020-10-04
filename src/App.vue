@@ -72,9 +72,12 @@ export default {
       },
 
       deleteNote(index) {
-         const newNotes = [...this.notes];
-         newNotes.splice(index, 1);
-         this.notes = newNotes;
+         const confirmed = window.confirm('Delete note?');
+         if (confirmed) {
+            const newNotes = [...this.notes];
+            newNotes.splice(index, 1);
+            this.notes = newNotes;
+         }
       },
    },
 };
