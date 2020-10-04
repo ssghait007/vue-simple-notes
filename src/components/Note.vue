@@ -10,7 +10,7 @@ export default {
 </script>
 
 <template>
-   <div :class="['note', { selected }]">
+   <div :class="['note', { selected }]" @click="$emit('click')">
       {{ note.name }}
    </div>
 </template>
