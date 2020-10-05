@@ -19,8 +19,24 @@
     "babel-eslint": "^10.0.1",
     "eslint": "^5.16.0",
     "eslint-plugin-vue": "^5.0.0",
+    "husky": "^4.3.0",
+    "lint-staged": "^10.4.0",
     "node-sass": "^4.12.0",
     "sass-loader": "^8.0.0",
     "vue-template-compiler": "^2.6.10"
+  },
+  "lint-staged": {
+      "*.vue": [
+         "eslint"
+      ],
+      "*.js": [
+         "eslint"
+      ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged",
+      "pre-push": "list-staged"
+    }
   }
 }
