@@ -19,7 +19,7 @@ export default {
    components: { Note, NoteEdit },
 
    // Data: It is the container of variables, which may be accessible from the view => data: {}
-   // When working with components, it changes to the function format => data(){}  
+   // When working with components, it changes to the function format => data(){}
    data: () => ({
       notes: [],
       search: '',
@@ -41,6 +41,7 @@ export default {
          return this.notes;
       },
    },
+
    // It is invoked after creating the instance
    created() {
       const notes = JSON.parse(localStorage.getItem('simple-notes'));
@@ -61,8 +62,8 @@ export default {
       clearInterval(this.interval);
    },
 
-   // Methods:It allows to declare methods that could be used in our project
-   methods: {      
+   // Methods: It allows to declare methods that could be used in our project
+   methods: {
       autoSave() {
          this.interval = setInterval(() => {
             if (!this.saved) {
@@ -111,7 +112,7 @@ export default {
          <section :class="['nav', { navOpen }]">
             <div class="search">
                <input placeholder="Search" v-model="search" />
-               
+
                <div class="new-note" @click="newNote">+</div>
             </div>
 

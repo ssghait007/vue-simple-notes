@@ -11,9 +11,10 @@ export default {
 <template>
   <div class="note-edit">
      <div class="title">
-        <!--  $emit(Eventname, arg): 
-        /*Trigger an event on the current instance. Any additional arguments will be 
-        passed into the listener’s callback function.*/ -->
+         <!-- $emit(Eventname, arg):
+            Trigger an event on the current instance. Any additional arguments will be
+            passed into the listener’s callback function.
+         -->
         <input class="name" @input="e => $emit('name', e)" :value="note.name" />
         <div class="date">{{ note.creationDate }}</div>
      </div>
