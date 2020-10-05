@@ -36,7 +36,7 @@
   "husky": {
     "hooks": {
       "pre-commit": "lint-staged",
-      "pre-push": "list-staged"
+      "pre-push": "lint-staged"
     }
   }
 }
