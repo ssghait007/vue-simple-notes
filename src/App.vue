@@ -15,11 +15,11 @@ class NoteClass {
 export default {
    name: 'app',
 
-//components: Component registry to use
+   // Components: Component registry to use
    components: { Note, NoteEdit },
 
-   //data: It is the container of variables, which may be accessible from the view => data: {}
-   //When working with components, it changes to the function format => data(){}  
+   // Data: It is the container of variables, which may be accessible from the view => data: {}
+   // When working with components, it changes to the function format => data(){}  
    data: () => ({
       notes: [],
       search: '',
@@ -41,7 +41,7 @@ export default {
          return this.notes;
       },
    },
-   //It is invoked after creating the instance
+   // It is invoked after creating the instance
    created() {
       const notes = JSON.parse(localStorage.getItem('simple-notes'));
       if (notes) {
@@ -61,10 +61,8 @@ export default {
       clearInterval(this.interval);
    },
 
-// methods:It allows to declare methods that could be used in our project
-
-   methods: {
-      
+   // Methods:It allows to declare methods that could be used in our project
+   methods: {      
       autoSave() {
          this.interval = setInterval(() => {
             if (!this.saved) {

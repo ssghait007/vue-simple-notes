@@ -1,12 +1,10 @@
 <script>
-
-//export default{} allows you to use the component within the project
-
+// export default{} allows you to use the component within the project
 export default {
 // Name: Componet name
    name: 'note',
 
-//Props: Add properties to the object
+   // Props: Add properties to the object
    props: {
       note: { type: Object, default: () => ({}) },
       selected: { type: Boolean, default: false },
