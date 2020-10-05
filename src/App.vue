@@ -1,4 +1,5 @@
 <script>
+// Import: Call the developed components
 import moment from 'moment';
 import Note from '@/components/Note.vue';
 import NoteEdit from '@/views/NoteEdit.vue';
@@ -14,8 +15,11 @@ class NoteClass {
 export default {
    name: 'app',
 
+//components: Component registry to use
    components: { Note, NoteEdit },
 
+   //data: It is the container of variables, which may be accessible from the view => data: {}
+   //When working with components, it changes to the function format => data(){}  
    data: () => ({
       notes: [],
       search: '',
@@ -25,6 +29,7 @@ export default {
       interval: '',
    }),
 
+   // Properties calculated based on established logic. They are declared as functions.
    computed: {
       filteredNotes() {
          if (this.search) {
@@ -36,7 +41,7 @@ export default {
          return this.notes;
       },
    },
-
+   //It is invoked after creating the instance
    created() {
       const notes = JSON.parse(localStorage.getItem('simple-notes'));
       if (notes) {
@@ -48,11 +53,18 @@ export default {
       this.autoSave();
    },
 
+   /*
+   It is invoked after an instance has been destroyed. All directives for VUE instances
+   have been unbound, listeners have been removed.
+   */
    destroyed() {
       clearInterval(this.interval);
    },
 
+// methods:It allows to declare methods that could be used in our project
+
    methods: {
+      
       autoSave() {
          this.interval = setInterval(() => {
             if (!this.saved) {
@@ -101,6 +113,7 @@ export default {
          <section :class="['nav', { navOpen }]">
             <div class="search">
                <input placeholder="Search" v-model="search" />
+               
                <div class="new-note" @click="newNote">+</div>
             </div>
 
