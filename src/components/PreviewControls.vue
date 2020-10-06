@@ -8,10 +8,10 @@ export default {
 
    methods: {
       changePreviewMode(mode) {
-         this.$emit('modeChange', mode)
+         this.$emit('modeChange', mode);
       },
    },
-}
+};
 </script>
 
 <template>
@@ -20,12 +20,16 @@ export default {
          @click="changePreviewMode('plaintext')"
          :class="{ active: mode === 'plaintext' }"
          class="control-btn"
-      >Plaintext</button>
+      >
+         Plaintext
+      </button>
       <button
          @click="changePreviewMode('markdown')"
          :class="{ active: mode === 'markdown' }"
          class="control-btn"
-      >Markdown</button>
+      >
+         Markdown
+      </button>
    </div>
 </template>
 

@@ -9,7 +9,7 @@ export default {
       note: { type: Object, default: () => ({}) },
       selected: { type: Boolean, default: false },
    },
-}
+};
 </script>
 
 <template>

@@ -1,21 +1,24 @@
 <script>
-import moment from 'moment'
-import Note from '@/components/Note.vue'
-import NoteEdit from '@/views/NoteEdit.vue'
+import moment from 'moment';
+import Note from '@/components/Note.vue';
+import NoteEdit from '@/views/NoteEdit.vue';
 
 class NoteClass {
    constructor() {
-      this.name = 'New Note'
-      this.content = ''
-      this.creationDate = moment(new Date()).format('MMMM Do YYYY, h:mm:ss a')
+      this.name = 'New Note';
+      this.content = '';
+      this.creationDate = moment(new Date()).format('MMMM Do YYYY, h:mm:ss a');
    }
 }
 
 export default {
    name: 'app',
 
+   // Components: Component registry to use
    components: { Note, NoteEdit },
 
+   // Data: It is the container of variables, which may be accessible from the view => data: {}
+   // When working with components, it changes to the function format => data(){}
    data: () => ({
       notes: [],
       search: '',
@@ -25,78 +28,83 @@ export default {
       interval: '',
    }),
 
+   // Properties calculated based on established logic. They are declared as functions.
    computed: {
       filteredNotes() {
          if (this.search) {
             return this.notes.filter((note) => {
                return note.name
                   .toLowerCase()
-                  .includes(this.search.toLowerCase())
-            })
+                  .includes(this.search.toLowerCase());
+            });
          }
 
-         return this.notes
+         return this.notes;
       },
    },
 
+   // It is invoked after creating the instance
    created() {
-      const notes = JSON.parse(localStorage.getItem('simple-notes'))
+      const notes = JSON.parse(localStorage.getItem('simple-notes'));
       if (notes) {
-         this.notes = notes
+         this.notes = notes;
       } else {
-         localStorage.setItem('simple-notes', JSON.stringify([]))
+         localStorage.setItem('simple-notes', JSON.stringify([]));
       }
 
-      this.autoSave()
+      this.autoSave();
    },
 
+   /*
+   It is invoked after an instance has been destroyed. All directives for VUE instances
+   have been unbound, listeners have been removed.
+   */
    destroyed() {
-      clearInterval(this.interval)
+      clearInterval(this.interval);
    },
 
+   // Methods: It allows to declare methods that could be used in our project
    methods: {
       autoSave() {
          this.interval = setInterval(() => {
             if (!this.saved) {
-               localStorage.setItem('simple-notes', JSON.stringify(this.notes))
-               this.saved = true
+               localStorage.setItem('simple-notes', JSON.stringify(this.notes));
+               this.saved = true;
             }
-         }, 1000 * 5) // save every 5 seconds
+         }, 1000 * 5); // save every 5 seconds
       },
 
       newNote() {
-         this.notes.unshift(new NoteClass())
+         this.notes.unshift(new NoteClass());
       },
 
       selectNote(index) {
-         this.selected = index
-         this.navOpen = false
+         this.selected = index;
+         this.navOpen = false;
       },
 
       editNote(key, e) {
-         this.notes[this.selected][key] = e.target.value
-         this.saved = false
+         this.notes[this.selected][key] = e.target.value;
+         this.saved = false;
       },
 
       deleteNote(e, index) {
-         e.stopPropagation()
-         const confirmed = window.confirm('Delete note?')
+         e.stopPropagation();
+         const confirmed = window.confirm('Delete note?');
          if (confirmed) {
-            const newNotes = [...this.notes]
-            newNotes.splice(index, 1)
-            this.notes = newNotes
+            const newNotes = [...this.notes];
+            newNotes.splice(index, 1);
+            this.notes = newNotes;
          }
       },
    },
-}
+};
 </script>
 
 <template>
    <div id="app">
       <header class="header">
-         <div :class="['menu', { navOpen }]" @click="navOpen = !navOpen">
-            &#10095;
-         </div>
+         <div :class="['menu', { navOpen }]" @click="navOpen = !navOpen">&#10095;</div>
          <div class="title">Simple Notes</div>
          <div class="last-saved val">{{ saved ? 'Saved' : 'Unsaved' }}</div>
       </header>

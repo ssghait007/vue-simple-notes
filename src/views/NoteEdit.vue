@@ -1,8 +1,8 @@
 <script>
-import marked from 'marked'
-import '../markdown.scss'
+import marked from 'marked';
+import '../markdown.scss';
 
-import PreviewControls from '@/components/PreviewControls.vue'
+import PreviewControls from '@/components/PreviewControls.vue';
 
 export default {
    name: 'note-edit',
@@ -19,14 +19,14 @@ export default {
 
    methods: {
       onControlsChange(mode) {
-         this.previewMode = mode
+         this.previewMode = mode;
       },
 
       getMarkdownPreview() {
-         return marked(this.note.content)
+         return marked(this.note.content);
       },
    },
-}
+};
 </script>
 
 <template>
