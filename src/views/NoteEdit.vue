@@ -2,19 +2,23 @@
 import marked from "marked";
 import "../markdown.scss";
 
+import PreviewControls from "@/components/PreviewControls.vue";
+
 export default {
   name: "note-edit",
 
-  props: {
-    note: { type: Object, default: () => ({}) },
-  },
+  components: { PreviewControls },
 
   data: () => ({
     previewMode: "plaintext",
   }),
 
+  props: {
+    note: { type: Object, default: () => ({}) },
+  },
+
   methods: {
-    changePreviewMode(mode) {
+    onControlsChange(mode) {
       this.previewMode = mode;
     },
 
@@ -32,18 +36,7 @@ export default {
       <div class="date">{{ note.creationDate }}</div>
     </div>
 
-    <div class="controls">
-      <button
-        @click="changePreviewMode('plaintext')"
-        :class="{ active: previewMode === 'plaintext' }"
-        class="control-btn"
-      >Plaintext</button>
-      <button
-        @click="changePreviewMode('markdown')"
-        :class="{ active: previewMode === 'markdown' }"
-        class="control-btn"
-      >Markdown</button>
-    </div>
+    <PreviewControls :mode="previewMode" v-on:modeChange="onControlsChange"></PreviewControls>
 
     <textarea
       v-if="previewMode === 'plaintext'"
@@ -106,36 +99,6 @@ $controls-height: 31px;
     border: none;
     outline: none;
     color: #f5f5f5;
-  }
-
-  .controls {
-    display: flex;
-    justify-content: center;
-    margin: 0.5rem 0;
-
-    @media (min-width: 750px) {
-      justify-content: flex-end;
-    }
-
-    * + * {
-      margin-left: 1rem;
-    }
-  }
-
-  .control-btn {
-    padding: 0.5rem 2rem;
-    border: 1px solid #fff;
-    color: #fff;
-    border-radius: 10px;
-    background: none;
-    cursor: pointer;
-    transition: 0s background ease-in-out;
-
-    &.active,
-    &:hover {
-      background: #fff;
-      color: #212121;
-    }
   }
 
   .markdown-body {
