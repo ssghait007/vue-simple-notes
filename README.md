@@ -29,3 +29,15 @@ npm run lint
 ```
 npm run prettier
 ```
+
+### Run unit test (single run)
+
+```
+npm run test
+```
+
+### Run unit test in watch mode
+
+```
+npm run test:unit
+```
