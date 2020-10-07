@@ -1,5 +1,6 @@
 <script>
 import moment from 'moment';
+import debounce from 'debounce';
 import Note from '@/components/Note.vue';
 import NoteEdit from '@/views/NoteEdit.vue';
 
@@ -51,8 +52,6 @@ export default {
       } else {
          localStorage.setItem('simple-notes', JSON.stringify([]));
       }
-
-      this.autoSave();
    },
 
    /*
@@ -65,17 +64,9 @@ export default {
 
    // Methods: It allows to declare methods that could be used in our project
    methods: {
-      autoSave() {
-         this.interval = setInterval(() => {
-            if (!this.saved) {
-               localStorage.setItem('simple-notes', JSON.stringify(this.notes));
-               this.saved = true;
-            }
-         }, 1000 * 5); // save every 5 seconds
-      },
-
       newNote() {
          this.notes.unshift(new NoteClass());
+         this.save();
       },
 
       selectNote(index) {
@@ -86,7 +77,19 @@ export default {
       editNote(key, e) {
          this.notes[this.selected][key] = e.target.value;
          this.saved = false;
+         this.debounceSave();
       },
+
+      save() {
+         localStorage.setItem('simple-notes', JSON.stringify(this.notes));
+         this.saved = true;
+      },
+
+      debounceSave: debounce(function () {
+         if (!this.saved) {
+            this.save();
+         }
+      }, 3 * 1000),
 
       deleteNote(e, index) {
          e.stopPropagation();
@@ -95,6 +98,7 @@ export default {
             const newNotes = [...this.notes];
             newNotes.splice(index, 1);
             this.notes = newNotes;
+            this.save();
          }
       },
    },
