@@ -14,8 +14,11 @@ class NoteClass {
 export default {
    name: 'app',
 
+   // Components: Component registry to use
    components: { Note, NoteEdit },
 
+   // Data: It is the container of variables, which may be accessible from the view => data: {}
+   // When working with components, it changes to the function format => data(){}
    data: () => ({
       notes: [],
       search: '',
@@ -25,11 +28,14 @@ export default {
       interval: '',
    }),
 
+   // Properties calculated based on established logic. They are declared as functions.
    computed: {
       filteredNotes() {
          if (this.search) {
-            return this.notes.filter(note => {
-               return note.name.toLowerCase().includes(this.search.toLowerCase());
+            return this.notes.filter((note) => {
+               return note.name
+                  .toLowerCase()
+                  .includes(this.search.toLowerCase());
             });
          }
 
@@ -37,10 +43,11 @@ export default {
       },
    },
 
+   // It is invoked after creating the instance
    created() {
       const notes = JSON.parse(localStorage.getItem('simple-notes'));
       if (notes) {
-         this.notes = notes
+         this.notes = notes;
       } else {
          localStorage.setItem('simple-notes', JSON.stringify([]));
       }
@@ -48,10 +55,15 @@ export default {
       this.autoSave();
    },
 
+   /*
+   It is invoked after an instance has been destroyed. All directives for VUE instances
+   have been unbound, listeners have been removed.
+   */
    destroyed() {
       clearInterval(this.interval);
    },
 
+   // Methods: It allows to declare methods that could be used in our project
    methods: {
       autoSave() {
          this.interval = setInterval(() => {
@@ -111,7 +123,7 @@ export default {
                   :note="note"
                   :selected="selected === i"
                   @click="selectNote(i)"
-                  @delete="e => deleteNote(e, i)"
+                  @delete="(e) => deleteNote(e, i)"
                />
             </div>
          </section>
@@ -119,8 +131,8 @@ export default {
          <section class="window">
             <NoteEdit
                :note="notes[selected]"
-               @name="e => editNote('name', e)"
-               @content="e => editNote('content', e)"
+               @name="(e) => editNote('name', e)"
+               @content="(e) => editNote('content', e)"
             />
          </section>
       </div>
@@ -156,7 +168,9 @@ $white: #f5f5f5;
    z-index: 10;
    box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.5);
 
-   div { flex: 1; }
+   div {
+      flex: 1;
+   }
 
    .menu {
       display: none;
@@ -185,7 +199,9 @@ $white: #f5f5f5;
          }
       }
 
-      .title { justify-content: center; }
+      .title {
+         justify-content: center;
+      }
    }
 }
 
@@ -221,7 +237,9 @@ $white: #f5f5f5;
             border: 1px solid $dark;
             padding: 0px 6px;
             outline: none;
-            &:focus { border: 1px solid #888888 }
+            &:focus {
+               border: 1px solid #888888;
+            }
          }
 
          .new-note {
@@ -231,9 +249,13 @@ $white: #f5f5f5;
             justify-content: center;
             align-items: center;
             cursor: pointer;
-            transition: .10s background ease-in-out;
-            &:hover { background: rgba(255, 255, 255, 0.25); }
-            &:active { background: rgba(255, 255, 255, 0.12); }
+            transition: 0.1s background ease-in-out;
+            &:hover {
+               background: rgba(255, 255, 255, 0.25);
+            }
+            &:active {
+               background: rgba(255, 255, 255, 0.12);
+            }
          }
       }
 
@@ -242,22 +264,31 @@ $white: #f5f5f5;
          width: 100%;
          border-top: 1px solid $dark;
          overflow-y: scroll;
-         &::-webkit-scrollbar { width: 3px; }
-         &::-webkit-scrollbar-track { background: transparent; }
-         &::-webkit-scrollbar-thumb { background: #888; }
+         &::-webkit-scrollbar {
+            width: 3px;
+         }
+         &::-webkit-scrollbar-track {
+            background: transparent;
+         }
+         &::-webkit-scrollbar-thumb {
+            background: #888;
+         }
       }
 
       @media (max-width: 750px) {
          width: 100%;
          position: absolute;
          left: -100%;
-         transition: .15s left ease-in-out;
-         &.navOpen { left: 0; }
+         transition: 0.15s left ease-in-out;
+         &.navOpen {
+            left: 0;
+         }
       }
    }
 
    .window {
       height: 100%;
+      padding-bottom: 2rem;
       width: calc(100% - 240px);
 
       @media (max-width: 750px) {
@@ -265,5 +296,4 @@ $white: #f5f5f5;
       }
    }
 }
-
 </style>

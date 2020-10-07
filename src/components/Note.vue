@@ -1,7 +1,10 @@
 <script>
+// export default{} allows you to use the component within the project
 export default {
+   // Name: Component name
    name: 'note',
 
+   // Props: Add properties to the object
    props: {
       note: { type: Object, default: () => ({}) },
       selected: { type: Boolean, default: false },
@@ -16,7 +19,9 @@ export default {
          <div class="content">{{ note.content }}</div>
       </section>
 
-      <div class="delete" title="Delete" @click="e => $emit('delete', e)">&times;</div>
+      <div class="delete" title="Delete" @click="(e) => $emit('delete', e)">
+         &times;
+      </div>
    </div>
 </template>
 
@@ -30,9 +35,13 @@ export default {
    border-left: 5px solid transparent;
    border-bottom: 1px solid #323231;
    padding: 4px 6px;
-   transition: .15s background ease-in-out;
-   &:last-child { border-bottom: none; }
-   &:hover { background: rgba(255, 255, 255, 0.08); }
+   transition: 0.15s background ease-in-out;
+   &:last-child {
+      border-bottom: none;
+   }
+   &:hover {
+      background: rgba(255, 255, 255, 0.08);
+   }
    &.selected {
       border-left-color: #faa500;
    }
@@ -63,8 +72,10 @@ export default {
       font-size: 16px;
       opacity: 0.5;
       cursor: pointer;
-      transition: .15s opacity ease-in-out;
-      &:hover { opacity: 1; }
+      transition: 0.15s opacity ease-in-out;
+      &:hover {
+         opacity: 1;
+      }
    }
 }
 </style>
