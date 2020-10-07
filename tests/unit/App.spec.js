@@ -3,6 +3,7 @@ import App from "@/App.vue";
 
 describe("Note.vue", () => {
   global.confirm = jest.fn(() => true);
+
   it("should mount", () => {
     const wrapper = shallowMount(App, {
       propsData: { note: {} },
@@ -38,7 +39,7 @@ describe("Note.vue", () => {
 
   it("should have correct CRUD methods", async () => {
     const wrapper = shallowMount(App, {
-      propsData: { notes: [] },
+      data: () => ({ notes: [] }),
     });
     await wrapper.vm.newNote();
     expect(wrapper.vm.filteredNotes.length).toBe(1);
