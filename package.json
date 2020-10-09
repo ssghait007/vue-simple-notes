@@ -8,14 +8,19 @@
       "lint": "vue-cli-service lint",
       "prettier": "prettier -c \"./**/*.vue\" --write",
       "test:unit": "vue-cli-service test:unit --watch",
-      "test": "vue-cli-service test:unit"
+      "test": "vue-cli-service test:unit",
+      "start": "NODE_ENV=development ./node_modules/.bin/netlify-lambda serve server",
+      "build:netlify": "NODE_ENV=production vue-cli-service build && ./node_modules/.bin/netlify-lambda build server"
    },
    "dependencies": {
       "core-js": "^2.6.5",
       "debounce": "^1.2.0",
       "marked": "^1.2.0",
       "moment": "^2.29.0",
-      "vue": "^2.6.10"
+      "vue": "^2.6.10",
+      "express": "^4.16.4",
+      "netlify-lambda": "^1.4.3",
+      "serverless-http": "^1.9.1"
    },
    "devDependencies": {
       "@vue/cli-plugin-babel": "^3.0.3",
