@@ -24,11 +24,8 @@ router.get("/note", (req, res) => {
 });
 
 router.get("/note/:id", (req, res) => {
-    const note = notes.filter(item => {
-        console.log(item.id, req.params.id);
-        return item.id == req.params.id;
-    })
-    note.length?res.json(note):res.json([])
+    const note = notes.filter(item => item.id == req.params.id)
+    note.length ? res.json(note) : res.json([])
 });
 
 router.post("/note", (req, res) => {
