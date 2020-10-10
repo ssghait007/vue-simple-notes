@@ -41,3 +41,8 @@ npm run test
 ```
 npm run test:unit
 ```
+
+### Using netlify to deploy site with backend functions.
+
+ 1. Connect cloned/forked repo to netlify, 
+ 2. `netlify.toml` file will deploy both functions and HTML build
